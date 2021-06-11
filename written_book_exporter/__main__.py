@@ -6,13 +6,14 @@ from written_book_exporter.book_to_file import read_inventory
 parser = ArgumentParser()
 parser.add_argument("mode", help="Choose between inventory-export or chunk analysis and export",
                     type=str, choices=["INVENTORY", "CHUNKS"])
-parser.add_argument("world_folder", type=str, help="Minecraft World Folder")
-parser.add_argument("export_folder", type=str, help="Export folder")
+parser.add_argument("world_folder", type=str, help="Minecraft world, located in the saves folder.")
+parser.add_argument("export_folder", type=str,
+                    help="Output folder, where every single book gets exported into as a seperate text-file.")
 
 chunk = parser.add_argument("--chunk", type=str, required=False,
                             help="exported Chunks, [minX,minZ maxX,maxZ]", nargs=2)
 uuid = parser.add_argument("--uuid", type=str, required=False,
-                            help="Your Player-UUID. it can be found on namemc.com")
+                            help="The Player-UUID. It can be found on namemc.com")
 args = parser.parse_args()
 
 print("WorldFolder = "+args.world_folder)
