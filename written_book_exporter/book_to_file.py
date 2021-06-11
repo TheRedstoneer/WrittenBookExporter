@@ -1,14 +1,13 @@
-from nbt.nbt import NBTFile, TAG_Compound, TAG_List
+from nbt.nbt import TAG_List, NBTFile
 import json
+from os.path import join
 from re import sub as regex_replace
-from WrittenBookExporter.config import *
 
-PATH = WORLD_DIR + "/playerdata/" + UUID + ".dat"
+NEW_PAGE = "\n--------------------------------------\n"
 
-
-def export_book(pages, title="???", author="anonym"):
+def export_book(pages, out_dir: str, title="???", author="anonym"):
     page_count = 0
-    with open(f"{OUTPUT_DIR}/{title} by {author}", "w") as file:
+    with open(join(out_dir, f"{title} by {author}.txt"), "w") as file:
         for page in pages:
             page_str = str(page.value)
             if page_str.startswith('{'):
@@ -24,21 +23,22 @@ def export_book(pages, title="???", author="anonym"):
     return f"\"{title}\" by {author}", page_count
 
 
-def read_inventory(inv: TAG_List):
+def read_inventory(uuid: str, world_dir: str, out_dir: str):
+    playerdata = NBTFile(join(world_dir, f"playerdata/{uuid}.dat"))
+    inventory = playerdata.get("Inventory")
+    assert inventory is TAG_List
     export_count = 0
-    for item in inv:
+    for item in inventory:
         ID = str(item.get("id"))
         print(ID)
         if ID == "minecraft:written_book":
-            export_book(item.get("tag").get("pages"), item.get("tag").get("title").value, comp.get("tag").get("author").value)
+            export_book(item.get("tag").get("pages"), out_dir, item.get("tag").get("title").value, comp.get("tag").get("author").value)
             export_count -=- 1
         elif ID == "minecraft:writable_book":
-            export_book(item.get("tag").get("pages"))
+            export_book(item.get("tag").get("pages"), out_dir)
             export_count -=- 1
 
     print(f"successfully exported {export_count} books!")
 
 
-#playerdata = NBTFile(PATH, 'r')
-#inventory = playerdata.get("Inventory")
-#read_inventory(inventory)
+
