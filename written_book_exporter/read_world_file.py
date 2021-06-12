@@ -1,10 +1,9 @@
 from amulet.api.chunk import Chunk
-from amulet.api.world import World
+from amulet.api.level import World
 from amulet.api.errors import ChunkLoadError
 from amulet.utils.log import log
-from amulet.world_interface import load_world
+from amulet import load_level
 from written_book_exporter.book_to_file import export_book
-
 
 def analyse_chunk(chunk: Chunk, out_dir: str):
     chest_count = 0
@@ -25,12 +24,12 @@ def analyse_chunk(chunk: Chunk, out_dir: str):
 
 
 def export_from_world(cmin: tuple, cmax: tuple, world_dir: str, out_dir: str):
-    world: World = load_world(world_dir)
-    log.info(world.world_wrapper.game_version_string)
+    world: World = load_level(world_dir)
+    log.info(world.level_wrapper.game_version_string)
     for x in range(cmin[0], cmax[0]):
         for y in range(cmin[1], cmax[1]):
             try:
-                c: Chunk = world.get_chunk(x, y, "overworld")
+                c: Chunk = world.get_chunk(x, y, "minecraft:overworld")
             except ChunkLoadError:
                 # todo: analyse error
                 continue

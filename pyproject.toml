@@ -2,6 +2,6 @@
 requires = [
     "setuptools>=42",
     "wheel",
-    "amulet-core~=1.4.0"
+    "amulet-core>=1.4.0"
 ]
 build-backend = "setuptools.build_meta"
