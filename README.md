@@ -28,6 +28,6 @@ You can now run the module from any folder with \
 * `export_folder`        output folder, where every single book gets exported into as a seperate text-file.
 
 **optional arguments:**
-* `-h, --help`           just show a help message.
-* `--chunk CHUNK CHUNK`  chunks to export, [minX,minZ maxX,maxZ]
-* `--uuid UUID`          the Player-UUID. it can be found on namemc.com
+* `@h`           just show a help message.
+* `@chunk CHUNK CHUNK`  chunks to export, [minX,minZ maxX,maxZ]
+* `@uuid UUID`          the Player-UUID. it can be found on namemc.com
